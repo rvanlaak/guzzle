@@ -11,19 +11,9 @@ parameters:
 			path: src/Client.php
 
 		-
-			message: "#^Method GuzzleHttp\\\\Cookie\\\\CookieJar\\:\\:getIterator\\(\\) return type with generic class ArrayIterator does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/Cookie/CookieJar.php
-
-		-
 			message: "#^Parameter \\#3 \\$length of function substr expects int, int\\|false given\\.$#"
 			count: 1
 			path: src/Cookie/CookieJar.php
-
-		-
-			message: "#^Interface GuzzleHttp\\\\Cookie\\\\CookieJarInterface extends generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/Cookie/CookieJarInterface.php
 
 		-
 			message: "#^Parameter \\#1 \\$string of function strlen expects string, bool\\|float\\|int\\|object\\|string\\|null given\\.$#"
@@ -42,11 +32,6 @@ parameters:
 
 		-
 			message: "#^Method GuzzleHttp\\\\Cookie\\\\SetCookie\\:\\:getExpires\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: src/Cookie/SetCookie.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
 			count: 1
 			path: src/Cookie/SetCookie.php
 
@@ -191,117 +176,12 @@ parameters:
 			path: src/Handler/StreamHandler.php
 
 		-
-			message: "#^Parameter \\#3 \\$use_include_path of function fopen expects bool, null given\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function stream_set_timeout expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Cannot access offset 0 on array\\|false\\.$#"
-			count: 2
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Handler\\\\StreamHandler\\:\\:add_proxy\\(\\) has parameter \\$value with no typehint specified\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Handler\\\\StreamHandler\\:\\:add_timeout\\(\\) has parameter \\$value with no typehint specified\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Handler\\\\StreamHandler\\:\\:add_verify\\(\\) has parameter \\$value with no typehint specified\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Handler\\\\StreamHandler\\:\\:add_cert\\(\\) has parameter \\$value with no typehint specified\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Handler\\\\StreamHandler\\:\\:add_progress\\(\\) has parameter \\$value with no typehint specified\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Handler\\\\StreamHandler\\:\\:add_debug\\(\\) has parameter \\$value with no typehint specified\\.$#"
-			count: 1
-			path: src/Handler/StreamHandler.php
-
-		-
-			message: "#^Parameter \\#1 \\$obj of function spl_object_hash expects object, callable given\\.$#"
-			count: 1
-			path: src/HandlerStack.php
-
-		-
 			message: "#^Method GuzzleHttp\\\\MessageFormatter\\:\\:format\\(\\) should return string but returns string\\|null\\.$#"
 			count: 1
 			path: src/MessageFormatter.php
 
 		-
-			message: "#^Method GuzzleHttp\\\\Middleware\\:\\:history\\(\\) has parameter \\$container with generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/Middleware.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: src/Middleware.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Pool.php
-
-		-
-			message: "#^Parameter \\#1 \\$str of function substr expects string, int given\\.$#"
-			count: 1
-			path: src/RedirectMiddleware.php
-
-		-
-			message: "#^Parameter \\#1 \\$promise of method GuzzleHttp\\\\RedirectMiddleware\\:\\:withTracking\\(\\) expects GuzzleHttp\\\\Promise\\\\PromiseInterface, GuzzleHttp\\\\Promise\\\\PromiseInterface\\|Psr\\\\Http\\\\Message\\\\ResponseInterface given\\.$#"
-			count: 1
-			path: src/RedirectMiddleware.php
-
-		-
-			message: "#^Parameter \\#2 \\$value of method Psr\\\\Http\\\\Message\\\\MessageInterface\\:\\:withHeader\\(\\) expects array\\<string\\>\\|string, array\\<int\\|string\\> given\\.$#"
-			count: 1
-			path: src/RedirectMiddleware.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Utils\\:\\:describeType\\(\\) has parameter \\$input with no typehint specified\\.$#"
-			count: 1
-			path: src/Utils.php
-
-		-
-			message: "#^Parameter \\#1 \\$str of function rtrim expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/Utils.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Utils\\:\\:debugResource\\(\\) should return resource but returns resource\\|false\\.$#"
-			count: 1
-			path: src/Utils.php
-
-		-
-			message: "#^Cannot access offset 0 on array\\<int, string\\>\\|false\\.$#"
-			count: 1
-			path: src/Utils.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Utils\\:\\:jsonEncode\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/Utils.php
-
-		-
-			message: "#^Function GuzzleHttp\\\\describe_type\\(\\) has parameter \\$input with no typehint specified\\.$#"
-			count: 1
-			path: src/functions.php
 

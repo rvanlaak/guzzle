@@ -304,10 +304,7 @@ class StreamHandler
         }
 
         // Microsoft NTLM authentication only supported with curl handler
-        if (isset($options['auth'])
-            && \is_array($options['auth'])
-            && isset($options['auth'][2])
-            && 'ntlm' == $options['auth'][2]
+        if (isset($options['auth'][2]) && 'ntlm' === $options['auth'][2]
         ) {
             throw new \InvalidArgumentException('Microsoft NTLM authentication only supported with curl handler');
         }
@@ -315,7 +312,7 @@ class StreamHandler
         $uri = $this->resolveHost($request, $options);
 
         $context = $this->createResource(
-            function () use ($context, $params) {
+            static function () use ($context, $params) {
                 return \stream_context_create($context, $params);
             }
         );
@@ -345,7 +342,7 @@ class StreamHandler
         if (isset($options['force_ip_resolve']) && !\filter_var($uri->getHost(), FILTER_VALIDATE_IP)) {
             if ('v4' === $options['force_ip_resolve']) {
                 $records = \dns_get_record($uri->getHost(), DNS_A);
-                if (!isset($records[0]['ip'])) {
+                if (false === $records || !isset($records[0]['ip'])) {
                     throw new ConnectException(
                         \sprintf(
                             "Could not resolve IPv4 address for host '%s'",
@@ -354,10 +351,11 @@ class StreamHandler
                         $request
                     );
                 }
-                $uri = $uri->withHost($records[0]['ip']);
-            } elseif ('v6' === $options['force_ip_resolve']) {
+                return $uri->withHost($records[0]['ip']);
+            }
+            if ('v6' === $options['force_ip_resolve']) {
                 $records = \dns_get_record($uri->getHost(), DNS_AAAA);
-                if (!isset($records[0]['ipv6'])) {
+                if (false === $records || !isset($records[0]['ipv6'])) {
                     throw new ConnectException(
                         \sprintf(
                             "Could not resolve IPv6 address for host '%s'",
@@ -366,7 +364,7 @@ class StreamHandler
                         $request
                     );
                 }
-                $uri = $uri->withHost('[' . $records[0]['ipv6'] . ']');
+                return $uri->withHost('[' . $records[0]['ipv6'] . ']');
             }
         }
 
@@ -407,6 +405,9 @@ class StreamHandler
         return $context;
     }
 
+    /**
+     * @param mixed $value as passed via Request transfer options.
+     */
     private function add_proxy(RequestInterface $request, array &$options, $value, array &$params): void
     {
         if (!\is_array($value)) {
@@ -426,6 +427,9 @@ class StreamHandler
         }
     }
 
+    /**
+     * @param mixed $value as passed via Request transfer options.
+     */
     private function add_timeout(RequestInterface $request, array &$options, $value, array &$params): void
     {
         if ($value > 0) {
@@ -433,6 +437,9 @@ class StreamHandler
         }
     }
 
+    /**
+     * @param mixed $value as passed via Request transfer options.
+     */
     private function add_verify(RequestInterface $request, array &$options, $value, array &$params): void
     {
         if ($value === false) {
@@ -456,6 +463,9 @@ class StreamHandler
         $options['ssl']['allow_self_signed'] = false;
     }
 
+    /**
+     * @param mixed $value as passed via Request transfer options.
+     */
     private function add_cert(RequestInterface $request, array &$options, $value, array &$params): void
     {
         if (\is_array($value)) {
@@ -470,11 +480,14 @@ class StreamHandler
         $options['ssl']['local_cert'] = $value;
     }
 
+    /**
+     * @param mixed $value as passed via Request transfer options.
+     */
     private function add_progress(RequestInterface $request, array &$options, $value, array &$params): void
     {
         $this->addNotification(
             $params,
-            function ($code, $a, $b, $c, $transferred, $total) use ($value) {
+            static function ($code, $a, $b, $c, $transferred, $total) use ($value) {
                 if ($code == STREAM_NOTIFY_PROGRESS) {
                     $value($total, $transferred, null, null);
                 }
@@ -482,6 +495,9 @@ class StreamHandler
         );
     }
 
+    /**
+     * @param mixed $value as passed via Request transfer options.
+     */
     private function add_debug(RequestInterface $request, array &$options, $value, array &$params): void
     {
         if ($value === false) {
@@ -507,7 +523,7 @@ class StreamHandler
         $ident = $request->getMethod() . ' ' . $request->getUri()->withFragment('');
         $this->addNotification(
             $params,
-            function () use ($ident, $value, $map, $args) {
+            static function () use ($ident, $value, $map, $args) {
                 $passed = \func_get_args();
                 $code = \array_shift($passed);
                 \fprintf($value, '<%s> [%s] ', $ident, $map[$code]);
@@ -534,7 +550,7 @@ class StreamHandler
 
     private function callArray(array $functions): callable
     {
-        return function () use ($functions) {
+        return static function () use ($functions) {
             $args = \func_get_args();
             foreach ($functions as $fn) {
                 \call_user_func_array($fn, $args);
