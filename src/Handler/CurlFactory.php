@@ -330,7 +330,7 @@ class CurlFactory implements CurlFactoryInterface
      * @param string $name    Case-insensitive header to remove
      * @param array  $options Array of options to modify
      */
-    private function removeHeader($name, array &$options): void
+    private function removeHeader(string $name, array &$options): void
     {
         foreach (\array_keys($options['_headers']) as $key) {
             if (!\strcasecmp($key, $name)) {
