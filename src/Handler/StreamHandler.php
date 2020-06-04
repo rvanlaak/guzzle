@@ -18,6 +18,7 @@ use Psr\Http\Message\UriInterface;
  */
 class StreamHandler
 {
+    /** @var array */
     private $lastHeaders = [];
 
     /**
@@ -75,9 +76,9 @@ class StreamHandler
     private function invokeStats(
         array $options,
         RequestInterface $request,
-        $startTime,
+        ?float $startTime,
         ResponseInterface $response = null,
-        $error = null
+        ?\Throwable $error = null
     ): void {
         if (isset($options['on_stats'])) {
             $stats = new TransferStats(
@@ -91,20 +92,23 @@ class StreamHandler
         }
     }
 
+    /**
+     * @param resource $stream
+     */
     private function createResponse(
         RequestInterface $request,
         array $options,
         $stream,
-        $startTime
+        ?float $startTime
     ): PromiseInterface {
         $hdrs = $this->lastHeaders;
         $this->lastHeaders = [];
         $parts = \explode(' ', \array_shift($hdrs), 3);
         $ver = \explode('/', $parts[0])[1];
-        $status = $parts[1];
-        $reason = isset($parts[2]) ? $parts[2] : null;
+        $status = (int) $parts[1];
+        $reason = $parts[2] ?? null;
         $headers = Utils::headersFromLines($hdrs);
-        list($stream, $headers) = $this->checkDecode($options, $headers, $stream);
+        [$stream, $headers] = $this->checkDecode($options, $headers, $stream);
         $stream = Psr7\stream_for($stream);
         $sink = $stream;
 
@@ -154,6 +158,9 @@ class StreamHandler
             : Psr7\stream_for($sink);
     }
 
+    /**
+     * @param resource $stream
+     */
     private function checkDecode(array $options, array $headers, $stream): array
     {
         // Automatically decode responses when instructed.
