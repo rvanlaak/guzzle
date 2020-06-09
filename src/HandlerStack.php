@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class HandlerStack
 {
-    /** @var callable(RequestInterface, array): PromiseInterface|null */
+    /** @var null|callable(RequestInterface, array): PromiseInterface */
     private $handler;
 
     /** @var array */
@@ -75,7 +75,8 @@ class HandlerStack
     {
         $depth = 0;
         $stack = [];
-        if ($this->handler) {
+
+        if ($this->handler !== null) {
             $stack[] = "0) Handler: " . $this->debugCallable($this->handler);
         }
 
@@ -98,10 +99,10 @@ class HandlerStack
     /**
      * Set the HTTP handler that actually returns a promise.
      *
-     * @param callable(RequestInterface, array): PromiseInterface $handler Accepts a request and array of options and
-     *                                                                     returns a Promise.
+     * @param null|callable(RequestInterface, array): PromiseInterface $handler Accepts a request and array of options
+     *                                                                          and returns a Promise.
      */
-    public function setHandler(callable $handler): void
+    public function setHandler(callable $handler = null): void
     {
         $this->handler = $handler;
         $this->cached = null;
@@ -112,7 +113,7 @@ class HandlerStack
      */
     public function hasHandler(): bool
     {
-        return (bool) $this->handler;
+        return $this->handler !== null ;
     }
 
     /**
@@ -186,7 +187,7 @@ class HandlerStack
     public function resolve(): callable
     {
         if (!$this->cached) {
-            if (!($prev = $this->handler)) {
+            if (($prev = $this->handler) !== null) {
                 throw new \LogicException('No handler has been specified');
             }
 
@@ -238,7 +239,7 @@ class HandlerStack
     /**
      * Provides a debug string for a given callable.
      *
-     * @param array|string|callable $fn Function to write as a string.
+     * @param callable $fn Function to write as a string.
      */
     private function debugCallable($fn): string
     {
@@ -252,7 +253,7 @@ class HandlerStack
                 : "callable(['" . \get_class($fn[0]) . "', '{$fn[1]}'])";
         }
 
-        /** @var object $fn */
+        /** @var \Closure $fn */
         return 'callable(' . \spl_object_hash($fn) . ')';
     }
 }
