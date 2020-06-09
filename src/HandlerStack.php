@@ -14,10 +14,10 @@ class HandlerStack
     /** @var null|callable(RequestInterface, array): PromiseInterface */
     private $handler;
 
-    /** @var array */
+    /** @var array{callable(callable): callable, string|null} */
     private $stack = [];
 
-    /** @var callable|null */
+    /** @var null|callable(RequestInterface, array): PromiseInterface */
     private $cached;
 
     /**
