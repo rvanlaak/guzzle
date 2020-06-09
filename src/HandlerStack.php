@@ -99,10 +99,10 @@ class HandlerStack
     /**
      * Set the HTTP handler that actually returns a promise.
      *
-     * @param null|callable(RequestInterface, array): PromiseInterface $handler Accepts a request and array of options
-     *                                                                          and returns a Promise.
+     * @param callable(RequestInterface, array): PromiseInterface $handler Accepts a request and array of options and
+     *                                                                     returns a Promise.
      */
-    public function setHandler(callable $handler = null): void
+    public function setHandler(callable $handler): void
     {
         $this->handler = $handler;
         $this->cached = null;
