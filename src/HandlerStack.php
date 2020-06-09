@@ -193,6 +193,7 @@ class HandlerStack
                 throw new \LogicException('No handler has been specified');
             }
 
+            /** @var callable(RequestInterface, array): PromiseInterface $prev */
             foreach (\array_reverse($this->stack) as $fn) {
                 /** @var callable(RequestInterface, array): PromiseInterface $prev */
                 $prev = $fn[0]($prev);
