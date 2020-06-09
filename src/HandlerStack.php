@@ -188,7 +188,7 @@ class HandlerStack
      */
     public function resolve(): callable
     {
-        if ($this->cached !== null) {
+        if ($this->cached === null) {
             if (($prev = $this->handler) === null) {
                 throw new \LogicException('No handler has been specified');
             }
@@ -201,7 +201,6 @@ class HandlerStack
             $this->cached = $prev;
         }
 
-        /** @var callable(RequestInterface, array): PromiseInterface */
         return $this->cached;
     }
 
