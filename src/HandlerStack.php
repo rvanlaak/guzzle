@@ -14,7 +14,7 @@ class HandlerStack
     /** @var null|callable(RequestInterface, array): PromiseInterface */
     private $handler;
 
-    /** @var array{callable(callable): callable, string|null} */
+    /** @var array{(callable(callable): callable), (string|null)} */
     private $stack = [];
 
     /** @var null|callable(RequestInterface, array): PromiseInterface */
